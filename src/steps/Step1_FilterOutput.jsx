@@ -17,7 +17,7 @@ export default function Step1_FilterOutput({ cur, onNext, onPrev }) {
     drawSeries(ctx, x.slice(8), '#2e6fdb', w, h, { alpha: 0.3 });
     drawSeries(ctx, lms.ys, '#e0494a', w, h);
     addAxisLabels(ctx, w, h, 'y(n)');
-  }, []);
+  }, [x, lms.ys]);
 
   return (
     <div className="layout">

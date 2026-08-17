@@ -16,7 +16,7 @@ export default function Step2_Desired({ cur, onNext, onPrev }) {
     drawSeries(ctx, d.slice(8), '#1aa672', w, h);
     drawSeries(ctx, lms.ys, '#e0494a', w, h);
     addAxisLabels(ctx, w, h, 'd(n) & y(n)');
-  }, []);
+  }, [d, lms.ys]);
 
   return (
     <div className="layout">

@@ -15,7 +15,7 @@ export default function Step3_Error({ cur, onNext, onPrev }) {
     const { ctx, w, h } = setupCanvas(canvasRef.current, 120);
     drawSeries(ctx, lms.errs, '#e0494a', w, h);
     addAxisLabels(ctx, w, h, 'e(n)');
-  }, []);
+  }, [lms.errs]);
 
   return (
     <div className="layout">

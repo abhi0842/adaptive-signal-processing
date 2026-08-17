@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { makeSignal, runLMS } from '../core/lms';
 import { setupCanvas, drawSeries, addAxisLabels } from '../core/canvas';
 import NavRow from '../components/NavRow';
@@ -21,7 +21,7 @@ export default function Step4_LMS({ cur, onNext, onPrev }) {
 
   const canvasRef = useRef(null);
 
-  const redraw = () => {
+  const redraw = useCallback(() => {
     if (!canvasRef.current) return;
     const { ctx, w, h } = setupCanvas(canvasRef.current, 120);
     drawSeries(ctx, lms.w0t, '#c9821a', w, h, { upTo: animIdx });
@@ -30,7 +30,7 @@ export default function Step4_LMS({ cur, onNext, onPrev }) {
       drawSeries(ctx, converged, '#1aa672', w, h, { lw: 1, alpha: 0.5 });
     }
     addAxisLabels(ctx, w, h, 'w₀(t)');
-  };
+  }, [animIdx, lms]);
 
   useEffect(() => {
     if (!animRunning) return;
@@ -48,9 +48,9 @@ export default function Step4_LMS({ cur, onNext, onPrev }) {
     };
     frameRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameRef.current);
-  }, [animRunning, animSpeed]);
+  }, [animRunning, animSpeed, maxLen]);
 
-  useEffect(() => { redraw(); }, [animIdx, mu, M]);
+  useEffect(() => { redraw(); }, [redraw]);
 
   const stability = mu < 0.15 ? 'ok' : mu < 0.22 ? 'warn' : 'bad';
   const currentWeights = lms.weightsHistory[Math.max(0, animIdx - 1)] || new Array(M).fill(0);

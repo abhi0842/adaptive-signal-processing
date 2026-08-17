@@ -13,7 +13,7 @@ export default function Step0_Input({ cur, onNext, onPrev }) {
     const { ctx, w, h } = setupCanvas(canvasRef.current, 120);
     drawSeries(ctx, x, '#2e6fdb', w, h);
     addAxisLabels(ctx, w, h, 'x(n)');
-  }, []);
+  }, [x]);
 
   return (
     <div className="layout">

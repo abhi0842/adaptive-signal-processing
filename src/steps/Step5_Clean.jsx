@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { makeSignal, runLMS } from '../core/lms';
 import { setupCanvas, drawSeries, drawMSECurve, addAxisLabels } from '../core/canvas';
 import NavRow from '../components/NavRow';
@@ -25,7 +25,7 @@ export default function Step5_Clean({ cur, onNext, onPrev }) {
   const canvas1 = useRef(null);
   const canvas2 = useRef(null);
 
-  const redraw = () => {
+  const redraw = useCallback(() => {
     if (canvas1.current) {
       const { ctx, w, h } = setupCanvas(canvas1.current, 130);
       drawSeries(ctx, d.slice(M), '#1aa672', w, h, { upTo: animIdx });
@@ -37,7 +37,7 @@ export default function Step5_Clean({ cur, onNext, onPrev }) {
       drawMSECurve(ctx, lms.errs, w, h, { upTo: animIdx });
       addAxisLabels(ctx, w, h, 'MSE');
     }
-  };
+  }, [animIdx, d, lms, M]);
 
   useEffect(() => {
     if (!animRunning) return;
@@ -55,9 +55,9 @@ export default function Step5_Clean({ cur, onNext, onPrev }) {
     };
     frameRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameRef.current);
-  }, [animRunning, animSpeed]);
+  }, [animRunning, animSpeed, maxLen]);
 
-  useEffect(() => { redraw(); }, [animIdx, mu, ns, M]);
+  useEffect(() => { redraw(); }, [redraw]);
 
   const stability = mu < 0.18 ? 'ok' : mu < 0.22 ? 'warn' : 'bad';
   const currentWeights = lms.weightsHistory[Math.max(0, animIdx - 1)] || new Array(M).fill(0);

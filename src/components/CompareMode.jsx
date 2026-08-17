@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import { makeSignal, runLMS } from '../core/lms';
 import { setupCanvas, drawSeries, drawMSECurve, addAxisLabels } from '../core/canvas';
 import AnimControls from './AnimControls';
@@ -22,7 +22,7 @@ export default function CompareMode() {
   const canvasB1 = useRef(null);
   const canvasB2 = useRef(null);
 
-  const redraw = () => {
+  const redraw = useCallback(() => {
     if (canvasA1.current) {
       const { ctx, w, h } = setupCanvas(canvasA1.current, 110);
       drawSeries(ctx, d.slice(8), '#1aa672', w, h, { upTo: animIdx });
@@ -45,7 +45,7 @@ export default function CompareMode() {
       drawMSECurve(ctx, lmsB.errs, w, h, { upTo: animIdx });
       addAxisLabels(ctx, w, h, 'MSE');
     }
-  };
+  }, [animIdx, d, lmsA, lmsB]);
 
   useEffect(() => {
     if (!animRunning) return;
@@ -63,9 +63,9 @@ export default function CompareMode() {
     };
     frameRef.current = requestAnimationFrame(loop);
     return () => cancelAnimationFrame(frameRef.current);
-  }, [animRunning, animSpeed]);
+  }, [animRunning, animSpeed, maxLen]);
 
-  useEffect(() => { redraw(); }, [animIdx, muA, muB]);
+  useEffect(() => { redraw(); }, [redraw]);
 
   return (
     <div className="compare-grid show">
