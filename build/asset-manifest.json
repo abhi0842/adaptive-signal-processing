@@ -1,10 +1,10 @@
 {
   "files": {
-    "main.css": "/static/css/main.3651f42a.css",
-    "main.js": "/static/js/main.1eb6ddd6.js",
-    "index.html": "/index.html",
-    "main.3651f42a.css.map": "/static/css/main.3651f42a.css.map",
-    "main.1eb6ddd6.js.map": "/static/js/main.1eb6ddd6.js.map"
+    "main.css": "/adaptive-signal-processing/static/css/main.3651f42a.css",
+    "main.js": "/adaptive-signal-processing/static/js/main.1eb6ddd6.js",
+    "index.html": "/adaptive-signal-processing/index.html",
+    "main.3651f42a.css.map": "/adaptive-signal-processing/static/css/main.3651f42a.css.map",
+    "main.1eb6ddd6.js.map": "/adaptive-signal-processing/static/js/main.1eb6ddd6.js.map"
   },
   "entrypoints": [
     "static/css/main.3651f42a.css",
